@@ -1,0 +1,110 @@
+================================================================
+  TRAVELOGUE TOURS BMS — HOW TO INSTALL ON YOUR PHONE
+================================================================
+
+================================================================
+OPTION 1 — PWA (Install like an app, NO Play Store needed)
+================================================================
+
+This is the EASIEST method. Works on Android and iPhone.
+
+REQUIREMENTS:
+  - The app must be served from a web server (not opened as a
+    file directly). The easiest way is to use your computer.
+
+STEP 1: Serve the app from your computer
+  a) Make sure your phone and computer are on the SAME WiFi.
+  b) On your computer, open Command Prompt / Terminal.
+  c) Type this command and press Enter:
+       cd path\to\travelogue-tours
+       python -m http.server 8080
+     (If python3: python3 -m http.server 8080)
+  d) Note your computer's WiFi IP address:
+     - Windows: open Command Prompt, type: ipconfig
+       Look for "IPv4 Address" e.g. 192.168.1.5
+     - Mac: System Preferences → Network
+
+STEP 2: Open on your Android phone
+  a) Open Chrome on your phone.
+  b) In the address bar type:
+       http://192.168.1.5:8080
+     (use YOUR computer's IP address)
+  c) The app will open in Chrome.
+
+STEP 3: Install it as an app
+  a) Tap the three-dot menu (⋮) in Chrome.
+  b) Tap "Add to Home screen" or "Install app".
+  c) Tap "Install" / "Add".
+  d) The app now appears on your home screen with the
+     Travelogue Tours icon — just like a real app!
+
+AFTER INSTALLATION:
+  - The app works OFFLINE once installed.
+  - Your data is stored on your phone separately from
+    your computer. Use Backup & Restore to sync between them.
+
+
+================================================================
+OPTION 2 — APK FILE (Install directly, works fully offline)
+================================================================
+
+This creates a real Android app (.apk) file that you can
+install on any Android phone by sending via WhatsApp/email.
+
+STEP 1: Go to this free website on your computer:
+  https://www.pwabuilder.com
+
+STEP 2: You need a hosted URL. Use any of these free options:
+  Option A — GitHub Pages (free, permanent):
+    1. Create a free account at github.com
+    2. Create a new repository called "travelogue-bms"
+    3. Upload all the travelogue-tours folder files
+    4. Go to Settings → Pages → Deploy from main branch
+    5. Your URL will be: https://yourusername.github.io/travelogue-bms
+
+  Option B — Netlify Drop (easiest, free):
+    1. Go to https://app.netlify.com/drop
+    2. Drag and drop the entire travelogue-tours FOLDER
+    3. Netlify gives you a free URL instantly e.g.:
+       https://amazing-name-123.netlify.app
+
+STEP 3: Build the APK
+  1. Paste your URL into pwabuilder.com
+  2. Click "Start" — it will analyse your app
+  3. Click "Build My PWA"
+  4. Select "Android"
+  5. Download the .apk file
+
+STEP 4: Install the APK on your phone
+  1. Send the .apk file to your phone (WhatsApp, email, USB)
+  2. On your phone, open the .apk file
+  3. If prompted "Install from unknown sources":
+     Go to Settings → Security → Unknown Sources → Allow
+  4. Tap Install
+  5. The app appears in your app drawer!
+
+
+================================================================
+IMPORTANT: DATA & BACKUP ON MOBILE
+================================================================
+
+  * Data on your PHONE is separate from data on your COMPUTER.
+  * After installing on phone, do a backup on computer and
+    restore it on the phone to get all your existing data.
+  * Do regular backups from the phone too (Settings → Backup).
+  * The Excel/CSV export works on phone — files save to
+    your Downloads folder.
+
+
+================================================================
+RECOMMENDED SETUP FOR YOUR BUSINESS
+================================================================
+
+  COMPUTER (main)    — Enter data daily, full keyboard comfort
+  PHONE/TABLET       — View invoices, check dashboard on the go
+  BACKUP (.json)     — Export weekly, save to Google Drive
+
+
+================================================================
+  Travelogue Tours Ltd  |  info@traveloguetours.co.tz
+================================================================
