@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="TTours BMS">
+  <meta name="theme-color" content="#1a1a2e">
+  <meta name="description" content="Travelogue Tours Business Management System">
+  <title>Travelogue Tours — Business Management</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="icons/icon-152x152.png">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+<div id="mob-overlay" onclick="closeSidebar()"></div>
+<div id="app">
+  <div id="sidebar">
+    <div class="logo-bar">
+      <img src="logo.png" alt="Travelogue Tours" id="sidelogo">
+    </div>
+    <div class="nav-sec">Overview</div>
+    <div class="nav-item active" onclick="nav('dashboard')"><span class="ni">◉</span>Dashboard</div>
+    <div class="nav-sec">Master Data</div>
+    <div class="nav-item" onclick="nav('clients')"><span class="ni">◈</span>Clients</div>
+    <div class="nav-item" onclick="nav('suppliers')"><span class="ni">◈</span>Suppliers</div>
+    <div class="nav-sec">Sales</div>
+    <div class="nav-item" onclick="nav('invoices')"><span class="ni">◧</span>Client Invoices</div>
+    <div class="nav-sec">Purchasing</div>
+    <div class="nav-item" onclick="nav('pos')"><span class="ni">◨</span>Purchase Orders</div>
+    <div class="nav-item" onclick="nav('sinvoices')"><span class="ni">◧</span>Supplier Invoices</div>
+    <div class="nav-sec">Finance</div>
+    <div class="nav-item" onclick="nav('overheads')"><span class="ni">💸</span>Overheads &amp; Expenses</div>
+    <div class="nav-item" onclick="nav('profit')"><span class="ni">◈</span>Profit Tracker</div>
+    <div class="nav-item" onclick="nav('soa')"><span class="ni">≡</span>Statements (SOA)</div>
+    <div class="nav-sec">Reports</div>
+    <div class="nav-item" onclick="nav('reports')"><span class="ni">📋</span>Reports</div>
+    <div class="nav-sec">Settings</div>
+    <div class="nav-item" onclick="nav('settings')"><span class="ni">⚙</span>Settings</div>
+  </div>
+
+  <div id="main">
+    <div id="topbar">
+      <div id="menu-btn" style="display:none" onclick="toggleSidebar()">☰</div>
+      <span class="pt" id="ptitle">Dashboard</span>
+      <div class="acts" id="tacts"></div>
+    </div>
+    <div id="content"></div>
+  </div>
+</div>
+
+<div id="overlay"><div id="modal"></div></div>
+
+<script src="js/db.js"></script>
+<script src="js/helpers.js"></script>
+<script src="js/renders.js"></script>
+<script src="js/forms.js"></script>
+<script src="js/views.js"></script>
+<script src="js/reports.js"></script>
+<script src="js/app.js"></script>
+<script>
+  // Register service worker for PWA / offline support
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then(reg => console.log('SW registered:', reg.scope))
+        .catch(err => console.log('SW registration failed:', err));
+    });
+  }
+</script>
+</body>
+</html>
