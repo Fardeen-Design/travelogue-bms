@@ -18,8 +18,45 @@
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
 <body>
+
+<!-- ── Login Screen ───────────────────────────────────────────────────────── -->
+<div id="login-screen" style="
+  position:fixed;inset:0;background:#1a1a2e;
+  display:flex;align-items:center;justify-content:center;
+  z-index:9999;flex-direction:column;padding:20px;">
+  <img src="logo.png" alt="Travelogue Tours"
+    style="height:56px;width:auto;margin-bottom:32px;filter:brightness(0) invert(1);">
+  <div style="
+    background:#fff;border-radius:16px;padding:32px 28px;
+    width:100%;max-width:360px;box-shadow:0 8px 40px rgba(0,0,0,.4);">
+    <div style="font-size:18px;font-weight:700;color:#1a1a2e;margin-bottom:4px">Welcome back</div>
+    <div style="font-size:13px;color:#888;margin-bottom:24px">Travelogue Tours Business Manager</div>
+    <div style="margin-bottom:16px">
+      <label style="font-size:12px;font-weight:600;color:#555;display:block;margin-bottom:6px">PASSWORD</label>
+      <input id="login-pw" type="password" placeholder="Enter your password"
+        style="width:100%;padding:11px 14px;font-size:14px;border:1.5px solid #e0e0e0;
+        border-radius:8px;outline:none;box-sizing:border-box;"
+        onkeydown="if(event.key==='Enter')doLogin()"
+        onfocus="this.style.borderColor='#185fa5'"
+        onblur="this.style.borderColor='#e0e0e0'">
+    </div>
+    <div id="login-err" style="color:#b91c1c;font-size:12px;margin-bottom:12px;display:none">
+      Incorrect password. Please try again.
+    </div>
+    <button onclick="doLogin()" style="
+      width:100%;padding:12px;background:#1a1a2e;color:#fff;
+      border:none;border-radius:8px;font-size:14px;font-weight:600;
+      cursor:pointer;letter-spacing:.02em;">
+      Sign In →
+    </button>
+    <div style="margin-top:20px;font-size:11px;color:#aaa;text-align:center">
+      Travelogue Tours Ltd &nbsp;|&nbsp; Private & Confidential
+    </div>
+  </div>
+</div>
+
 <div id="mob-overlay" onclick="closeSidebar()"></div>
-<div id="app">
+<div id="app" style="display:none">
   <div id="sidebar">
     <div class="logo-bar">
       <img src="logo.png" alt="Travelogue Tours" id="sidelogo">
@@ -63,6 +100,55 @@
 <script src="js/views.js"></script>
 <script src="js/reports.js"></script>
 <script src="js/app.js"></script>
+<script>
+// ── Login ─────────────────────────────────────────────────────────────────────
+// Default password hash — overridden by localStorage if user changed it
+const _DEFAULT_HASH = 'fdb13b5cdff6e1974907f99c5f5043e8de72dbdd42b76a0dde12c6c6295d752a';
+window._PW_HASH = localStorage.getItem('travelogue_pw') || _DEFAULT_HASH;
+const _SESSION_KEY = 'travelogue_auth';
+
+async function hashStr(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+
+async function doLogin() {
+  const pw = document.getElementById('login-pw').value;
+  const err = document.getElementById('login-err');
+  if (!pw) { err.style.display='block'; err.textContent='Please enter your password.'; return; }
+  const hash = await hashStr(pw);
+  if (hash === window._PW_HASH) {
+    // Store session (valid for 8 hours)
+    sessionStorage.setItem(_SESSION_KEY, Date.now());
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = '';
+    loadDB(); nav('dashboard');
+  } else {
+    err.style.display = 'block';
+    err.textContent = 'Incorrect password. Please try again.';
+    document.getElementById('login-pw').value = '';
+    document.getElementById('login-pw').focus();
+  }
+}
+
+// Check if already authenticated this session
+(function checkAuth() {
+  const t = sessionStorage.getItem(_SESSION_KEY);
+  const eightHours = 8 * 60 * 60 * 1000;
+  if (t && (Date.now() - parseInt(t)) < eightHours) {
+    // Already logged in — skip login screen
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = '';
+  } else {
+    // Show login — focus password field after short delay
+    setTimeout(() => {
+      const el = document.getElementById('login-pw');
+      if (el) el.focus();
+    }, 100);
+  }
+})();
+</script>
+
 <script>
   // Register service worker for PWA / offline support
   if ('serviceWorker' in navigator) {
